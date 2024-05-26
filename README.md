@@ -58,7 +58,7 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run
    
 NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then follow steps 3 to 6 above in order to restart the installer again once the system has completed rebooting.
 
-9. Once the installer has completed installing the driver, run `reboot` to reboot your system. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
+8. Once the installer has completed installing the driver, run `reboot` to reboot your system. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
 
 -----
 
