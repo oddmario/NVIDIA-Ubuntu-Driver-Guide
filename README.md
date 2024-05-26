@@ -124,6 +124,8 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
   3. Run `sudo update-grub`
   4. Reboot the system
  
+  Additionally, you may also try installing the `libnvidia-egl-wayland1` package using `sudo apt install libnvidia-egl-wayland1`
+ 
 -----
 
 ## References
@@ -136,3 +138,4 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 - https://askubuntu.com/questions/1403854/cant-use-wayland-with-nvidia-510-drivers-on-ubuntu-22-04-lts
 - https://askubuntu.com/questions/68028/how-do-i-check-if-ubuntu-is-using-my-nvidia-graphics-card/624793#624793
 - https://www.reddit.com/r/linux_gaming/comments/17fn30q/comment/k6bug3m/
+- https://www.reddit.com/r/linux_gaming/comments/17ubgrl/nvidia_libnvidiaeglwayland1_do_i_need_to_install/
