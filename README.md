@@ -136,6 +136,8 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 - https://askubuntu.com/questions/66328/how-do-i-install-the-latest-nvidia-drivers-from-the-run-file/66335#66335
 - https://askubuntu.com/questions/219942/how-to-uninstall-manually-installed-nvidia-drivers/220729#220729
 - https://askubuntu.com/questions/1403854/cant-use-wayland-with-nvidia-510-drivers-on-ubuntu-22-04-lts
+- https://bbs.archlinux.org/viewtopic.php?pid=2133404#p2133404
+- https://wiki.archlinux.org/title/NVIDIA#DRM_kernel_mode_setting
 - https://askubuntu.com/questions/68028/how-do-i-check-if-ubuntu-is-using-my-nvidia-graphics-card/624793#624793
 - https://www.reddit.com/r/linux_gaming/comments/17fn30q/comment/k6bug3m/
 - https://www.reddit.com/r/linux_gaming/comments/17ubgrl/nvidia_libnvidiaeglwayland1_do_i_need_to_install/
