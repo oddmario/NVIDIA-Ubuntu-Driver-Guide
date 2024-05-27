@@ -150,7 +150,7 @@ A workaround is:
 ### The experience on Wayland is not the smoothest (fix Wayland issues)
 
 This may happen for a lot of reasons. For a while now, NVIDIA has been known to have issues with the Wayland windowing system. However, NVIDIA has been working on making this better.
-And actually, this has actually already gotten much better starting from the NVIDIA driver 555.42.02 which added explicit sync support (see https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/ & https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/)
+And this has actually already gotten much better starting from the NVIDIA driver 555.42.02 which added explicit sync support (see https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/ & https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/)
 
 So make sure to have version 555 or a higher version of the driver first then continue reading below to make the experience even smoother:
 
@@ -162,6 +162,15 @@ So make sure to have version 555 or a higher version of the driver first then co
   2. Add `nvidia-drm.modeset=1` and `nvidia-drm.fbdev=1` inside your `GRUB_CMDLINE_LINUX` (i.e. `GRUB_CMDLINE_LINUX="nvidia-drm.modeset=1 nvidia-drm.fbdev=1"`)
   3. Run `sudo update-grub`
   4. Reboot the system
+ 
+* You may have the GSP firmware of Nvidia enabled, and this is known to cause some performance issues on the beta 555.42.02 version of the driver. Maybe this will be fixed in the future, but for now, we can disable the GSP firmware if needed.
+
+  1. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
+  2. Add `nvidia.NVreg_EnableGpuFirmware=0` inside your `GRUB_CMDLINE_LINUX`
+  3. Run `sudo update-grub`
+  4. Reboot the system
+
+  See https://forums.developer.nvidia.com/t/major-kde-plasma-desktop-frameskip-lag-issues-on-driver-555/293606 for more information on this issue.
    
 * You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1` (**Please** don't do this if you installed version 555+ of the Nvidia driver since the driver installer already installs it for you).
 * for Google Chrome (and Chromium-based browsers in general), you may need to switch the "Preferred Ozone platform" flag to "Wayland" or "auto". Follow the steps below in order to apply this:
@@ -189,3 +198,6 @@ So make sure to have version 555 or a higher version of the driver first then co
 - https://www.reddit.com/r/Fedora/comments/rkzp78/make_chrome_run_on_wayland_permanently/
 - https://www.reddit.com/r/Fedora/comments/1afkoge/how_to_make_vscode_run_in_wayland_mode/
 - https://us.download.nvidia.com/XFree86/Linux-x86_64/555.42.02/README/installationandconfiguration.html
+- https://www.reddit.com/r/archlinux/comments/1cxc36m/comment/l528uff/
+- https://forums.developer.nvidia.com/t/major-kde-plasma-desktop-frameskip-lag-issues-on-driver-555/293606
+- https://download.nvidia.com/XFree86/Linux-x86_64/510.39.01/README/gsp.html
