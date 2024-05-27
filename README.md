@@ -1,7 +1,7 @@
 # NVIDIA Ubuntu Driver Guide
 A little guide to help you install & manage the NVIDIA GPU drivers on your Ubuntu system(s)
 
-I am personally a Ubuntu 24.04 user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not so very old [something like Ubuntu 20.04+])
+I am personally a **Ubuntu 24.04** user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
 
 -----
 
@@ -26,7 +26,9 @@ sudo apt install nvidia-driver-550
 sudo reboot
 ```
 
-NOTE: At the time of writing this guide, 550 is the latest version of the driver. Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what is the latest version of the driver then replace the `driver-550` part with the version you would like to install.
+NOTE: At the time of writing this guide, 550 is the latest version of the driver available on the repository.
+
+Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-550` part with the version you would like to install.
 
 3. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
 
@@ -35,7 +37,7 @@ NOTE: At the time of writing this guide, 550 is the latest version of the driver
 <details>
 <summary>Installing through the official NVIDIA installer from the Nvidia.com website</summary>
 
-Please do note that this procedure is more advanced and is often not recommended, even though it shall go alright as long as you follow each step with patience and care :)
+This procedure is more advanced and is often not recommended. And despite so, this is actually the method that I use to maintain an installation of the driver on my own system(s). It shall go alright as long as you follow each step with patience and care :)
 
 1. Ensure that you have uninstalled any previously installed NVIDIA drivers by running the below commands:
 ```
@@ -48,7 +50,7 @@ reboot
 
 **NOTE:** It would be lovely to store the downloaded `.run` file in a permanent place because you will need the exact same file if you would like to uninstall the driver later.
 
-3. Switch to the terminal of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead)
+3. Switch to the terminal of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
 
 4. Stop the GDM service:
 ```
@@ -64,8 +66,9 @@ If this fails for you, try `sudo systemctl stop lightdm` instead.
 chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run
 ```
+(make sure to replace the file name with the actual one that you got from the Nvidia website)
 
-7. The installer will guide you through everything.
+7. The installer will guide you through everything. Please read everything with care and answer the prompts depending on the proper situation to avoid any problems.
    
 NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then follow steps 3 to 6 above in order to restart the installer again once the system has completed rebooting.
 
@@ -111,6 +114,7 @@ If this fails for you, try `sudo systemctl stop lightdm` instead.
 chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 ```
+(make sure to replace the file name with the actual one that you got from the Nvidia website)
 
 5. Reboot the system once the uninstalling process has finished.
 
