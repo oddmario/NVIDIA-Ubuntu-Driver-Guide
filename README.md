@@ -1,15 +1,26 @@
 # NVIDIA Ubuntu Driver Guide
-A little guide to help you install & manage the NVIDIA GPU drivers on your Ubuntu system(s)
+A little guide to help you install & manage the NVIDIA GPU driver on your Ubuntu system(s)
 
-I am personally a **Ubuntu 24.04** user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
+I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
+
+## Index of content
+- [Driver installation](#driver-installation)
+  * [Through the graphics-drivers PPA repository](#installing-through-the-graphics-drivers-ppa-repository)
+  * [Through the official NVIDIA installer from the Nvidia.com website](#installing-through-the-official-nvidia-installer-from-the-nvidiacom-website)
+- [Driver uninstallation](#driver-uninstallation)
+  * [When installed through the graphics-drivers PPA repository](#uninstalling-the-driver-when-installed-through-the-graphics-drivers-ppa-repository)
+  * [When installed through the official NVIDIA installer from the Nvidia.com website](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
+- [Issues faced after installing the NVIDIA drivers, and how to solve them](#issues-faced-after-installing-the-nvidia-drivers-and-how-to-solve-them)
+  * [Fix ghost "Unknown Display" issue](#theres-a-ghost-unknown-display-on-the-gnome-displays-settings-especially-if-you-followed-the-graphics-drivers-ppa-repository-installation-procedure)
+  * [Wayland is no longer enabled/not visible on the login screen](#wayland-is-not-shown-as-an-option-on-the-login-screen-or-the-cog-icon-of-the-login-screen-doesnt-show-at-all)
+  * [Fix Wayland issues (flickering, etc.)](#the-experience-on-wayland-is-not-the-smoothest-fix-wayland-issues)
+- [References](#references)
 
 -----
 
-<details>
-<summary>Driver installation</summary>
+## Driver installation
 
-<details>
-<summary>Installing through the graphics-drivers PPA repository</summary>
+### Installing through the `graphics-drivers` PPA repository
 
 1. Ensure that you have uninstalled any previously installed NVIDIA drivers by running the below commands:
 ```
@@ -32,10 +43,7 @@ Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check
 
 3. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
 
-</details>
-
-<details>
-<summary>Installing through the official NVIDIA installer from the Nvidia.com website</summary>
+### Installing through the official NVIDIA installer from the Nvidia.com website
 
 This procedure is more advanced and is often not recommended. And despite so, this is actually the method that I use to maintain an installation of the driver on my own system(s). It shall go alright as long as you follow each step with patience and care :)
 
@@ -50,7 +58,7 @@ reboot
 
 **NOTE:** It would be lovely to store the downloaded `.run` file in a permanent place because you will need the exact same file if you would like to uninstall the driver later.
 
-3. Switch to the terminal of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
+3. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
 
 4. Stop the GDM service:
 ```
@@ -74,17 +82,11 @@ NOTE: If the installer asks you to disable Nouveau, allow the installer to disab
 
 8. Once the installer has completed installing the driver, run `reboot` to reboot your system. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
 
-</details>
-
 -----
 
-</details>
+## Driver uninstallation
 
-<details>
-<summary>Driver uninstallation</summary>
-
-<details>
-<summary>Uninstalling the driver when installed through the graphics-drivers PPA repository</summary>
+### Uninstalling the driver when installed through the `graphics-drivers` PPA repository
 
 Run:
 ```
@@ -93,12 +95,9 @@ sudo apt autoremove
 reboot
 ```
 
-</details>
+### Uninstalling the driver when installed through the official NVIDIA installer from the Nvidia.com website
 
-<details>
-<summary>Uninstalling the driver when installed through the official NVIDIA installer from the Nvidia.com website</summary>
-
-1. Switch to the terminal of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead)
+1. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
 
 2. Stop the GDM service:
 ```
@@ -118,61 +117,54 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 
 5. Reboot the system once the uninstalling process has finished.
 
-</details>
-
 -----
 
-</details>
+## Issues faced after installing the NVIDIA drivers, and how to solve them
 
-<details>
-<summary>Issues faced after installing the NVIDIA drivers, and how to solve them</summary>
-
-- There's a ghost "Unknown Display" on the GNOME Displays settings (especially if you followed the `graphics-drivers` PPA repository installation procedure).
+### There's a ghost "Unknown Display" on the GNOME Displays settings (especially if you followed the `graphics-drivers` PPA repository installation procedure).
   
-  This seems to be a bug reported at https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-535/+bug/2063222
+This seems to be a bug reported at https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-535/+bug/2063222
 
-  A workaround is:
-  ```
-  [ Workaround ]
-  
-  1. sudo rm /dev/dri/card0
-  2. Log in again.
-  ```
+A workaround is:
+```
+[ Workaround ]
 
-- Wayland is not shown as an option on the login screen (or the cog icon of the login screen doesn't show at all)
+1. sudo rm /dev/dri/card0
+2. Log in again.
+```
 
-  1. Edit the `/etc/gdm3/custom.conf` file using `sudo nano /etc/gdm3/custom.conf`
-  2. Ensure that `WaylandEnable=true` is set in that file and make sure that it's uncommented (does not start with a `#`)
-  3. Run `sudo ln -s /dev/null /etc/udev/rules.d/61-gdm.rules`
+### Wayland is not shown as an option on the login screen (or the cog icon of the login screen doesn't show at all)
+
+1. Edit the `/etc/gdm3/custom.conf` file using `sudo nano /etc/gdm3/custom.conf`
+2. Ensure that `WaylandEnable=true` is set in that file and make sure that it's uncommented (does not start with a `#`)
+3. Run `sudo ln -s /dev/null /etc/udev/rules.d/61-gdm.rules`
+4. Reboot the system
+
+### The experience on Wayland is not the smoothest (fix Wayland issues)
+
+This may happen for a lot of reasons. For a while now, NVIDIA has been known to have issues with the Wayland windowing system. However, NVIDIA has been working on making this better.
+And actually, this has actually already gotten much better starting from the NVIDIA driver 555.42.02 which added explicit sync support (see https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/ & https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/)
+
+So make sure to have version 555 or a higher version of the driver first then continue reading below to make the experience even smoother:
+
+* Your system may be using the Mesa driver instead of the NVIDIA one on Wayland sessions. You can confirm this by typing `glxinfo|egrep "OpenGL vendor|OpenGL renderer*"`
+
+  In order to solve this:
+     
+  1. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
+  2. Add `nvidia-drm.modeset=1` and `nvidia-drm.fbdev=1` inside your `GRUB_CMDLINE_LINUX` (i.e. `GRUB_CMDLINE_LINUX="nvidia-drm.modeset=1 nvidia-drm.fbdev=1"`)
+  3. Run `sudo update-grub`
   4. Reboot the system
-
-- The experience on Wayland is not the smoothest
-
-  This may happen for a lot of reasons. For a while now, NVIDIA has been known to have issues with the Wayland windowing system. However, NVIDIA has been working on making this better.
-  And actually, this has already gotten much better starting from the NVIDIA driver 555.42.02 which added explicit sync support (see https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/ & https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/)
-
-  So make sure to have version 555 or higher of the NVIDIA driver first then continue reading below to make the experience even smoother:
-
-     * Your system may be using the Mesa driver instead of the NVIDIA one on Wayland sessions. You can confirm this by typing `glxinfo|egrep "OpenGL vendor|OpenGL renderer*"`
    
-        In order to solve this:
-        
-        1. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
-        2. Add `nvidia-drm.modeset=1` inside your `GRUB_CMDLINE_LINUX` (i.e. `GRUB_CMDLINE_LINUX="nvidia-drm.modeset=1"`)
-        3. Run `sudo update-grub`
-        4. Reboot the system
-      
-     * You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1`
-     * for Google Chrome (and Chromium-based browsers in general), you may need to switch the "Preferred Ozone platform" flag to "Wayland" or "auto". Follow the steps below in order to apply this:
-       1. Go to chrome://flags
-       2. Search "Preferred Ozone platform"
-       3. Set the flag to "Wayland" or "auto"
-       4. Restart the browser
-     * for some Electron apps, you may need to pass the same Ozone platform flag as we did above. For example `code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto` for Visual Studio Code
+* You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1`
+* for Google Chrome (and Chromium-based browsers in general), you may need to switch the "Preferred Ozone platform" flag to "Wayland" or "auto". Follow the steps below in order to apply this:
+  1. Go to chrome://flags
+  2. Search "Preferred Ozone platform"
+  3. Set the flag to "Wayland" or "auto"
+  4. Restart the browser
+* for some Electron apps, you may need to pass the same Ozone platform flag as we did above. For example `code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto` for Visual Studio Code
       
 -----
-
-</details>
 
 ## References
 - https://askubuntu.com/questions/206283/how-can-i-uninstall-a-nvidia-driver-completely/206289#206289
