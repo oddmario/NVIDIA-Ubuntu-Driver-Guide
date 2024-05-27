@@ -54,33 +54,38 @@ sudo apt autoremove
 reboot
 ```
 
-2. Navigate to https://www.nvidia.com/Download/index.aspx?lang=en-us and download the proper driver for your GPU and Linux architecture. The website should give you a file that ends with the `.run` file extension.
+2. Ensure that you do not have a manually installed version of `libnvidia-egl-wayland1` (especially if you are going to install version 555+ of the Nvidia driver). The driver already includes it as stated @ https://us.download.nvidia.com/XFree86/Linux-x86_64/555.42.02/README/installedcomponents.html
+```
+sudo apt remove libnvidia-egl-wayland1
+```
+
+3. Navigate to https://www.nvidia.com/Download/index.aspx?lang=en-us and download the proper driver for your GPU and Linux architecture. The website should give you a file that ends with the `.run` file extension.
 
 **NOTE:** It would be lovely to store the downloaded `.run` file in a permanent place because you will need the exact same file if you would like to uninstall the driver later.
 
-3. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
+4. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
 
-4. Stop the GDM service:
+5. Stop the GDM service:
 ```
 sudo systemctl stop gdm
 sudo systemctl stop gdm3
 ```
 If this fails for you, try `sudo systemctl stop lightdm` instead.
 
-5. Change to the path of the directory that includes the downloaded `.run` file using `cd`
+6. Change to the path of the directory that includes the downloaded `.run` file using `cd`
 
-6. Run the installer:
+7. Run the installer:
 ```
 chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run
 ```
 (make sure to replace the file name with the actual one that you got from the Nvidia website)
 
-7. The installer will guide you through everything. Please read everything with care and answer the prompts depending on the proper situation to avoid any problems.
+8. The installer will guide you through everything. Please read everything with care and answer the prompts depending on the proper situation to avoid any problems.
    
-NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then follow steps 3 to 6 above in order to restart the installer again once the system has completed rebooting.
+NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then follow steps 4 to 7 above in order to restart the installer again once the system has completed rebooting.
 
-8. Once the installer has completed installing the driver, run `reboot` to reboot your system. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
+9. Once the installer has completed installing the driver, run `reboot` to reboot your system. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
 
 -----
 
@@ -114,6 +119,8 @@ chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 ```
 (make sure to replace the file name with the actual one that you got from the Nvidia website)
+
+NOTE: Do not panic if the screen goes blank throughout the uninstallation process. This is easily fixable by switching to the GUI tty then back to the terminal one (i.e. `Ctrl + Alt + F1` then `Ctrl + Alt + F3` back)
 
 5. Reboot the system once the uninstalling process has finished.
 
@@ -156,7 +163,7 @@ So make sure to have version 555 or a higher version of the driver first then co
   3. Run `sudo update-grub`
   4. Reboot the system
    
-* You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1`
+* You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1` (**Please** don't do this if you installed version 555+ of the Nvidia driver since the driver installer already installs it for you).
 * for Google Chrome (and Chromium-based browsers in general), you may need to switch the "Preferred Ozone platform" flag to "Wayland" or "auto". Follow the steps below in order to apply this:
   1. Go to chrome://flags
   2. Search "Preferred Ozone platform"
@@ -181,3 +188,4 @@ So make sure to have version 555 or a higher version of the driver first then co
 - https://www.reddit.com/r/linux_gaming/comments/17ubgrl/nvidia_libnvidiaeglwayland1_do_i_need_to_install/
 - https://www.reddit.com/r/Fedora/comments/rkzp78/make_chrome_run_on_wayland_permanently/
 - https://www.reddit.com/r/Fedora/comments/1afkoge/how_to_make_vscode_run_in_wayland_mode/
+- https://us.download.nvidia.com/XFree86/Linux-x86_64/555.42.02/README/installationandconfiguration.html
