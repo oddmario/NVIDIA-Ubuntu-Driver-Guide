@@ -165,6 +165,10 @@ So make sure to have version 555 or a higher version of the driver first then co
  
 * You may have the GSP firmware of Nvidia enabled, and this is known to cause some performance issues on the beta 555.42.02 version of the driver. Maybe this will be fixed in the future, but for now, we can disable the GSP firmware if needed.
 
+  You can check whether the GSP firmware is enabled or no by typing `nvidia-smi -q | grep "GSP Firmware"` — if it says `N/A` then the firmware is not enabled. If otherwise (it shows a version for GSP firmware) then the firmware is enabled.
+
+  To disable the GSP firmware, please follow the below steps:
+
   1. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
   2. Add `nvidia.NVreg_EnableGpuFirmware=0` inside your `GRUB_CMDLINE_LINUX`
   3. Run `sudo update-grub`
