@@ -1,5 +1,9 @@
 # NVIDIA Ubuntu Driver Guide
-A little guide to help you install the NVIDIA GPU drivers on your Ubuntu system(s)
+A little guide to help you install & manage the NVIDIA GPU drivers on your Ubuntu system(s)
+
+I am personally a Ubuntu 24.04 user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not so very old [something like Ubuntu 20.04+])
+
+-----
 
 <details>
 <summary>Driver installation</summary>
@@ -143,7 +147,7 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
   This may happen for a lot of reasons. For a while now, NVIDIA has been known to have issues with the Wayland windowing system. However, NVIDIA has been working on making this better.
   And actually, this has already gotten much better starting from the NVIDIA driver 555.42.02 which added explicit sync support (see https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/ & https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/)
 
-  So make sure to have version 555 or higher of the NVIDIA drivers first then continue reading below to make the experience even smoother:
+  So make sure to have version 555 or higher of the NVIDIA driver first then continue reading below to make the experience even smoother:
 
      * Your system may be using the Mesa driver instead of the NVIDIA one on Wayland sessions. You can confirm this by typing `glxinfo|egrep "OpenGL vendor|OpenGL renderer*"`
    
@@ -155,11 +159,12 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
         4. Reboot the system
       
      * You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1`
-     * for Google Chrome, you may need to switch the "Preferred Ozone platform" flag to "Wayland". Follow the steps below in order to apply this:
+     * for Google Chrome (and Chromium-based browsers in general), you may need to switch the "Preferred Ozone platform" flag to "Wayland" or "auto". Follow the steps below in order to apply this:
        1. Go to chrome://flags
        2. Search "Preferred Ozone platform"
-       3. Set the flag to "Wayland"
+       3. Set the flag to "Wayland" or "auto"
        4. Restart the browser
+     * for some Electron apps, you may need to pass the same Ozone platform flag as we did above. For example `code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto` for Visual Studio Code
       
 -----
 
@@ -179,3 +184,4 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 - https://www.reddit.com/r/linux_gaming/comments/17fn30q/comment/k6bug3m/
 - https://www.reddit.com/r/linux_gaming/comments/17ubgrl/nvidia_libnvidiaeglwayland1_do_i_need_to_install/
 - https://www.reddit.com/r/Fedora/comments/rkzp78/make_chrome_run_on_wayland_permanently/
+- https://www.reddit.com/r/Fedora/comments/1afkoge/how_to_make_vscode_run_in_wayland_mode/
