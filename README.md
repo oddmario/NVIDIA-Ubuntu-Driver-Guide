@@ -111,9 +111,16 @@ sudo systemctl stop gdm3
 ```
 If this fails for you, try `sudo systemctl stop lightdm` instead.
 
-3. Change to the path of the directory that includes the downloaded `.run` file using `cd` (NOTE: Make sure its the exact same `.run` file that you used to install the driver)
+3. To ensure that we can boot into the system graphically through the Nouveau driver after uninstalling the Nvidia driver, remove any Nouveau-blacklist entries that might have been created by the installer previously:
+```
+sudo rm -rf /lib/modprobe.d/nvidia-installer-*
+sudo rm -rf /etc/modprobe.d/nvidia-installer-*
+sudo update-initramfs -u
+```
 
-4. Run the uninstaller:
+4. Change to the path of the directory that includes the downloaded `.run` file using `cd` (NOTE: Make sure its the exact same `.run` file that you used to install the driver)
+
+5. Run the uninstaller:
 ```
 chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
@@ -122,7 +129,7 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 
 NOTE: Do not panic if the screen goes blank throughout the uninstallation process. This is easily fixable by switching to the GUI tty then back to the terminal one (i.e. `Ctrl + Alt + F1` then `Ctrl + Alt + F3` back)
 
-5. Reboot the system once the uninstalling process has finished.
+6. Reboot the system once the uninstalling process has finished.
 
 -----
 
