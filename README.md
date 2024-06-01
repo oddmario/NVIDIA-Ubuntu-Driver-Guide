@@ -33,13 +33,13 @@ reboot
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update 
-sudo apt install nvidia-driver-550
+sudo apt install nvidia-driver-555
 sudo reboot
 ```
 
-NOTE: At the time of writing this guide, 550 is the latest version of the driver available on the repository.
+NOTE: At the time this guide was last updated, 555 is the latest version of the driver available on the repository.
 
-Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-550` part with the version you would like to install.
+Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-555` part with the version you would like to install.
 
 3. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
 
@@ -115,6 +115,7 @@ If this fails for you, try `sudo systemctl stop lightdm` instead.
 ```
 sudo rm -rf /lib/modprobe.d/nvidia-installer-*
 sudo rm -rf /etc/modprobe.d/nvidia-installer-*
+sudo rm -rf /usr/lib/modprobe.d/nvidia-installer-*
 sudo update-initramfs -u
 ```
 
