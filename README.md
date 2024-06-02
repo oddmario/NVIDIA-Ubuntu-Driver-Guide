@@ -158,9 +158,13 @@ A workaround is:
 ### The experience on Wayland is not the smoothest (fix Wayland issues)
 
 This may happen for a lot of reasons. For a while now, NVIDIA has been known to have issues with the Wayland windowing system. However, NVIDIA has been working on making this better.
-And this has actually already gotten much better starting from the NVIDIA driver 555.42.02 which added explicit sync support (see https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/ & https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/)
+And this has actually already gotten much better starting from the NVIDIA driver 555.42.02 which added [explicit sync](https://9to5linux.com/developer-explains-why-explicit-sync-will-finally-solve-the-nvidia-wayland-issues) support.
 
-So make sure to have version 555 or a higher version of the driver first then continue reading below to make the experience even smoother:
+So first of all, make sure to have:
+- Version 555.42.02 or a higher version of the Nvidia driver
+- GNOME 46.1 or a higher version on your Ubuntu installation
+
+then continue reading below to make the experience even smoother:
 
 * Your system may be using the Mesa driver instead of the NVIDIA one on Wayland sessions. You can confirm this by typing `glxinfo|egrep "OpenGL vendor|OpenGL renderer*"`
 
@@ -228,3 +232,6 @@ So make sure to have version 555 or a higher version of the driver first then co
 - https://forums.developer.nvidia.com/t/major-kde-plasma-desktop-frameskip-lag-issues-on-driver-555/293606
 - https://download.nvidia.com/XFree86/Linux-x86_64/510.39.01/README/gsp.html
 - https://download.nvidia.com/XFree86/Linux-x86_64/435.17/README/powermanagement.html
+- https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/
+- https://www.reddit.com/r/linux_gaming/comments/1c9izpc/gnome_461_released_with_explicit_sync/
+- https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/
