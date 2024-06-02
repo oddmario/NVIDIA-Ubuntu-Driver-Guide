@@ -191,6 +191,20 @@ So make sure to have version 555 or a higher version of the driver first then co
   3. Set the flag to "Wayland" or "auto"
   4. Restart the browser
 * for some Electron apps, you may need to pass the same Ozone platform flag as we did above. For example `code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto` for Visual Studio Code
+
+* You may not have the preserve video memory allocations module parameter enabled, and this can cause issues particularly when suspending and resuming the system, usually in the form of graphical artifacts or a broken desktop environment.
+
+  You can check whether the module parameter is enabled or not by typing `sudo cat /proc/driver/nvidia/params | grep "PreserveVideoMemoryAllocations"`. If the value is `0` or missing, then the parameter is not enabled.
+
+  To enable the preserve video memory allocations module paramter, please follow the below steps:
+  
+  1. Create or edit `/etc/modprobe.d/nvidia.conf` using `sudo nano /etc/modprobe.d/nvidia.conf`
+  2. Add `options nvidia NVreg_PreserveVideoMemoryAllocations=1` to a new line
+  3. Run `sudo update-initramfs -u`
+  4. Reboot the system
+  5. Run `sudo cat /proc/driver/nvidia/params | grep "PreserveVideoMemoryAllocations"` to verify the parameter is now set
+
+  If you are still experiencing issues with suspend/resume after enabling this module parameter, you may want to take a look at Nvidia's [power management documentation](https://download.nvidia.com/XFree86/Linux-x86_64/435.17/README/powermanagement.html) to double check that the relevant `systemd` services are installed and enabled.
       
 -----
 
@@ -213,3 +227,4 @@ So make sure to have version 555 or a higher version of the driver first then co
 - https://www.reddit.com/r/archlinux/comments/1cxc36m/comment/l528uff/
 - https://forums.developer.nvidia.com/t/major-kde-plasma-desktop-frameskip-lag-issues-on-driver-555/293606
 - https://download.nvidia.com/XFree86/Linux-x86_64/510.39.01/README/gsp.html
+- https://download.nvidia.com/XFree86/Linux-x86_64/435.17/README/powermanagement.html
