@@ -18,16 +18,24 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 
 -----
 
+> ## ⚠️ Warning
+> 
+> Please follow & read every part of this guide with fine care to avoid the occurrence of any problems.
+> 
+> Also do not worry if the system looks stuck during any rebooting step. It actually is not stuck! Kindly allow up to 2 minutes for the rebooting to complete.
+
 ## Driver installation
 
 ### Installing through the `graphics-drivers` PPA repository
 
-1. Ensure that you have uninstalled any previously installed NVIDIA drivers by running the below commands:
-```
-sudo apt-get remove --purge '^nvidia-.*'
-sudo apt autoremove
-reboot
-```
+1. Ensure that you have uninstalled any previously installed NVIDIA drivers:
+   * to uninstall any Nvidia drivers installed from an APT repository:
+      ```
+      sudo apt-get remove --purge '^nvidia-.*'
+      sudo apt autoremove
+      reboot
+      ```
+   * to uninstall any Nvidia drivers installed using the official NVIDIA installer (`.run` file): [Driver uninstallation](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
 
 2. Add the repository and install the driver:
 ```
@@ -47,12 +55,14 @@ Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check
 
 This procedure is more advanced and is often not recommended. And despite so, this is actually the method that I use to maintain an installation of the driver on my own system(s). It shall go alright as long as you follow each step with patience and care :)
 
-1. Ensure that you have uninstalled any previously installed NVIDIA drivers by running the below commands:
-```
-sudo apt-get remove --purge '^nvidia-.*'
-sudo apt autoremove
-reboot
-```
+1. Ensure that you have uninstalled any previously installed NVIDIA drivers:
+   * to uninstall any Nvidia drivers installed from an APT repository:
+      ```
+      sudo apt-get remove --purge '^nvidia-.*'
+      sudo apt autoremove
+      reboot
+      ```
+   * to uninstall any Nvidia drivers installed using the official NVIDIA installer (`.run` file): [Driver uninstallation](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
 
 2. Ensure that you do not have a manually installed version of `libnvidia-egl-wayland1` (especially if you are going to install version 555+ of the Nvidia driver). The driver already includes it as stated @ https://us.download.nvidia.com/XFree86/Linux-x86_64/555.42.02/README/installedcomponents.html
 ```
@@ -72,6 +82,8 @@ sudo systemctl stop gdm3
 ```
 If this fails for you, try `sudo systemctl stop lightdm` instead.
 
+**Kindly note** that it is important to stop the GNOME Display Manager (GDM) service throughout the driver installation/uninstallation process as it may cause trouble otherwise.
+
 6. Change to the path of the directory that includes the downloaded `.run` file using `cd`
 
 7. Run the installer:
@@ -83,9 +95,14 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run
 
 8. The installer will guide you through everything. Please read everything with care and answer the prompts depending on the proper situation to avoid any problems.
    
-NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then follow steps 4 to 7 above in order to restart the installer again once the system has completed rebooting.
+NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then start again from step 4 once the system has completed rebooting.
 
-9. Once the installer has completed installing the driver, run `reboot` to reboot your system. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
+9. Once the installer has completed installing the driver, run `sudo update-initramfs -u` to update the initramfs.
+10. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
+11. Add `nvidia-drm.modeset=1` and `nvidia-drm.fbdev=1` inside your `GRUB_CMDLINE_LINUX` (i.e. `GRUB_CMDLINE_LINUX="nvidia-drm.modeset=1 nvidia-drm.fbdev=1"`)
+12. Run `sudo update-grub`
+13. Reboot the system
+14. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
 
 -----
 
@@ -102,26 +119,28 @@ reboot
 
 ### Uninstalling the driver when installed through the official NVIDIA installer from the Nvidia.com website
 
-1. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
-
-2. Stop the GDM service:
-```
-sudo systemctl stop gdm
-sudo systemctl stop gdm3
-```
-If this fails for you, try `sudo systemctl stop lightdm` instead.
-
-3. To ensure that we can boot into the system graphically through the Nouveau driver after uninstalling the Nvidia driver, remove any Nouveau-blacklist entries that might have been created by the installer previously:
+1. To ensure that we can boot into the system graphically through the Nouveau driver after uninstalling the Nvidia driver, remove any Nouveau-blacklist entries that might have been created by the installer previously:
 ```
 sudo rm -rf /lib/modprobe.d/nvidia-installer-*
 sudo rm -rf /etc/modprobe.d/nvidia-installer-*
 sudo rm -rf /usr/lib/modprobe.d/nvidia-installer-*
 sudo update-initramfs -u
 ```
+2. Remove any entries related to the NVIDIA driver (`nvidia-drm.modeset`, `nvidia-drm.fbdev`, etc) from your `/etc/default/grub` file. (__this is important__).
+3. Rebuild the GRUB configuration using `sudo update-grub`
+4. Reboot the system to get any NVIDIA modules unloaded
+5. Once the system boots back up, switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
+6. Stop the GDM service:
+```
+sudo systemctl stop gdm
+sudo systemctl stop gdm3
+```
+If this fails for you, try `sudo systemctl stop lightdm` instead.
 
-4. Change to the path of the directory that includes the downloaded `.run` file using `cd` (NOTE: Make sure its the exact same `.run` file that you used to install the driver)
+**Kindly note** that it is important to stop the GNOME Display Manager (GDM) service throughout the driver installation/uninstallation process as it may cause trouble otherwise.
 
-5. Run the uninstaller:
+7. Change to the path of the directory that includes the downloaded `.run` file using `cd` (NOTE: Make sure its the exact same `.run` file that you used to install the driver)
+8. Run the uninstaller:
 ```
 chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
@@ -130,7 +149,7 @@ sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
 
 NOTE: Do not panic if the screen goes blank throughout the uninstallation process. This is easily fixable by switching to the GUI tty then back to the terminal one (i.e. `Ctrl + Alt + F1` then `Ctrl + Alt + F3` back)
 
-6. Reboot the system once the uninstalling process has finished.
+9. Reboot the system once the uninstalling process has finished.
 
 -----
 
@@ -202,9 +221,9 @@ then continue reading below to make the experience even smoother:
 
   To enable the preserve video memory allocations module paramter, please follow the below steps:
   
-  1. Create or edit `/etc/modprobe.d/nvidia.conf` using `sudo nano /etc/modprobe.d/nvidia.conf`
-  2. Add `options nvidia NVreg_PreserveVideoMemoryAllocations=1` to a new line
-  3. Run `sudo update-initramfs -u`
+  1. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
+  2. Add `nvidia.NVreg_PreserveVideoMemoryAllocations=1` inside your `GRUB_CMDLINE_LINUX`
+  3. Run `sudo update-grub`
   4. Reboot the system
   5. Run `sudo cat /proc/driver/nvidia/params | grep "PreserveVideoMemoryAllocations"` to verify the parameter is now set
 
