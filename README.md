@@ -5,7 +5,7 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 
 ## Index of content
 - [Driver installation](#driver-installation)
-  * [Through the graphics-drivers PPA repository (Recommended)](#installing-through-the-graphics-drivers-ppa-repository-recommended)
+  * ⭐ [Through the graphics-drivers PPA repository](#-installing-through-the-graphics-drivers-ppa-repository-recommended) [RECOMMENDED]
   * [Through the official NVIDIA installer from the Nvidia.com website](#installing-through-the-official-nvidia-installer-from-the-nvidiacom-website)
 - [Driver uninstallation](#driver-uninstallation)
   * [When installed through the graphics-drivers PPA repository](#uninstalling-the-driver-when-installed-through-the-graphics-drivers-ppa-repository)
@@ -26,7 +26,7 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 
 ## Driver installation
 
-### Installing through the `graphics-drivers` PPA repository [RECOMMENDED]
+### ⭐ Installing through the `graphics-drivers` PPA repository [RECOMMENDED]
 
 1. Ensure that you have uninstalled any previously installed NVIDIA drivers:
    * to uninstall any Nvidia drivers installed from an APT repository:
@@ -122,7 +122,6 @@ reboot
 sudo rm -rf /lib/modprobe.d/nvidia-installer-*
 sudo rm -rf /etc/modprobe.d/nvidia-installer-*
 sudo rm -rf /usr/lib/modprobe.d/nvidia-installer-*
-sudo update-initramfs -u
 ```
 2. Remove any entries related to the NVIDIA driver (`nvidia-drm.modeset`, `nvidia-drm.fbdev`, etc) from your `/etc/default/grub` file. (__this is important__).
 3. Rebuild the GRUB configuration using `sudo update-grub`
@@ -130,7 +129,11 @@ sudo update-initramfs -u
 ```
 sudo nvidia-installer --uninstall
 ```
-5. Reboot the system once the uninstalling process has finished.
+5. Rebuild the system initramfs:
+```
+sudo update-initramfs -u
+```
+6. Reboot the system once the uninstalling process has finished.
 
 -----
 
@@ -166,7 +169,7 @@ So first of all, make sure to have:
 
 then continue reading below to make the experience even smoother:
 
-* Your system may be using the Mesa driver instead of the NVIDIA one on Wayland sessions. You can confirm this by typing `glxinfo|egrep "OpenGL vendor|OpenGL renderer*"`
+* Your system may be using the Mesa driver instead of the NVIDIA one on Wayland sessions. You can confirm this by typing `glxinfo | egrep "OpenGL vendor|OpenGL renderer*"`
 
   In order to solve this:
      
@@ -188,7 +191,7 @@ then continue reading below to make the experience even smoother:
 
   See https://forums.developer.nvidia.com/t/major-kde-plasma-desktop-frameskip-lag-issues-on-driver-555/293606 for more information on this issue.
    
-* You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1` (**Please** don't do this if you installed version 555+ of the Nvidia driver since the driver installer already installs it for you).
+* You may be missing the `libnvidia-egl-wayland1` package (which is often recommended). Try installing the package using `sudo apt install libnvidia-egl-wayland1` (**Please** don't do this if you installed version 555+ of the Nvidia driver since the driver installer already installs it for you. The PPA repo packages also install it by default.).
 * for Google Chrome (and Chromium-based browsers in general), you may need to switch the "Preferred Ozone platform" flag to "Wayland" or "auto". Follow the steps below in order to apply this:
   1. Go to chrome://flags
   2. Search "Preferred Ozone platform"
