@@ -5,7 +5,7 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 
 ## Index of content
 - [Driver installation](#driver-installation)
-  * [Through the graphics-drivers PPA repository](#installing-through-the-graphics-drivers-ppa-repository)
+  * [Through the graphics-drivers PPA repository (Recommended)](#installing-through-the-graphics-drivers-ppa-repository-recommended)
   * [Through the official NVIDIA installer from the Nvidia.com website](#installing-through-the-official-nvidia-installer-from-the-nvidiacom-website)
 - [Driver uninstallation](#driver-uninstallation)
   * [When installed through the graphics-drivers PPA repository](#uninstalling-the-driver-when-installed-through-the-graphics-drivers-ppa-repository)
@@ -26,7 +26,7 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 
 ## Driver installation
 
-### Installing through the `graphics-drivers` PPA repository
+### Installing through the `graphics-drivers` PPA repository [RECOMMENDED]
 
 1. Ensure that you have uninstalled any previously installed NVIDIA drivers:
    * to uninstall any Nvidia drivers installed from an APT repository:
@@ -70,8 +70,6 @@ sudo apt remove libnvidia-egl-wayland1
 ```
 
 3. Navigate to https://www.nvidia.com/Download/index.aspx?lang=en-us and download the proper driver for your GPU and Linux architecture. The website should give you a file that ends with the `.run` file extension.
-
-**NOTE:** It would be lovely to store the downloaded `.run` file in a permanent place because you will need the exact same file if you would like to uninstall the driver later.
 
 4. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
 
@@ -128,28 +126,11 @@ sudo update-initramfs -u
 ```
 2. Remove any entries related to the NVIDIA driver (`nvidia-drm.modeset`, `nvidia-drm.fbdev`, etc) from your `/etc/default/grub` file. (__this is important__).
 3. Rebuild the GRUB configuration using `sudo update-grub`
-4. Reboot the system to get any NVIDIA modules unloaded
-5. Once the system boots back up, switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
-6. Stop the GDM service:
+4. Run the uninstaller:
 ```
-sudo systemctl stop gdm
-sudo systemctl stop gdm3
+sudo nvidia-installer --uninstall
 ```
-If this fails for you, try `sudo systemctl stop lightdm` instead.
-
-**Kindly note** that it is important to stop the GNOME Display Manager (GDM) service throughout the driver installation/uninstallation process as it may cause trouble otherwise.
-
-7. Change to the path of the directory that includes the downloaded `.run` file using `cd` (NOTE: Make sure its the exact same `.run` file that you used to install the driver)
-8. Run the uninstaller:
-```
-chmod +x NVIDIA-Linux-x86_64-555.42.02.run
-sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run --uninstall
-```
-(make sure to replace the file name with the actual one that you got from the Nvidia website)
-
-NOTE: Do not panic if the screen goes blank throughout the uninstallation process. This is easily fixable by switching to the GUI tty then back to the terminal one (i.e. `Ctrl + Alt + F1` then `Ctrl + Alt + F3` back)
-
-9. Reboot the system once the uninstalling process has finished.
+5. Reboot the system once the uninstalling process has finished.
 
 -----
 
@@ -240,6 +221,7 @@ then continue reading below to make the experience even smoother:
 - https://askubuntu.com/questions/219942/how-to-uninstall-manually-installed-nvidia-drivers/220729#220729
 - https://askubuntu.com/questions/1403854/cant-use-wayland-with-nvidia-510-drivers-on-ubuntu-22-04-lts
 - https://bbs.archlinux.org/viewtopic.php?pid=2133404#p2133404
+- https://wiki.archlinux.org/title/NVIDIA
 - https://wiki.archlinux.org/title/NVIDIA#DRM_kernel_mode_setting
 - https://askubuntu.com/questions/68028/how-do-i-check-if-ubuntu-is-using-my-nvidia-graphics-card/624793#624793
 - https://www.reddit.com/r/linux_gaming/comments/17fn30q/comment/k6bug3m/
@@ -254,3 +236,6 @@ then continue reading below to make the experience even smoother:
 - https://www.reddit.com/r/linux_gaming/comments/1bjhx8w/explicit_sync_protocol_just_merged_on_wayland/
 - https://www.reddit.com/r/linux_gaming/comments/1c9izpc/gnome_461_released_with_explicit_sync/
 - https://www.reddit.com/r/linux_gaming/comments/1cx8739/nvidia_555_driver_now_out_explicit_sync_support/
+- https://www.tecmint.com/install-nvidia-drivers-in-linux/
+- https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/
+- https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/3/
