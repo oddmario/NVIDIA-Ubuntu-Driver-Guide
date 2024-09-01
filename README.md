@@ -71,7 +71,7 @@ sudo apt remove libnvidia-egl-wayland1
 
 3. Install the required dependencies:
 ```
-sudo apt install pkg-config libglvnd-dev
+sudo apt install pkg-config libglvnd-dev dkms build-essential libegl-dev libegl1 libgl-dev libgl1 libgles-dev libgles1 libglvnd-core-dev libglx-dev libopengl-dev gcc make 
 ```
 
 4. Navigate to https://www.nvidia.com/Download/index.aspx?lang=en-us and download the proper driver for your GPU and Linux architecture. The website should give you a file that ends with the `.run` file extension.
