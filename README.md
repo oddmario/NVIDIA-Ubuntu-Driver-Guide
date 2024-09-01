@@ -1,7 +1,7 @@
 # NVIDIA Ubuntu Driver Guide
 A little guide to help you install & manage the NVIDIA GPU driver on your Ubuntu system(s)
 
-I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
+I am personally an **Ubuntu 24.04.1** user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
 
 ## Index of content
 - [Driver installation](#driver-installation)
@@ -28,6 +28,8 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 
 ### ⭐ Installing through the `graphics-drivers` PPA repository [RECOMMENDED]
 
+This installation approach is the recommended one, and it actually is the method that I use to maintain an installation of the driver on my own system(s).
+
 1. Ensure that you have uninstalled any previously installed NVIDIA drivers:
    * to uninstall any Nvidia drivers installed from an APT repository:
       ```
@@ -36,8 +38,13 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
       reboot
       ```
    * to uninstall any Nvidia drivers installed using the official NVIDIA installer (`.run` file): [Driver uninstallation](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
+  
+2. Install these dependencies to ensure DKMS support and a problem-free installation process:
+```
+sudo apt install pkg-config libglvnd-dev dkms build-essential libegl-dev libegl1 libgl-dev libgl1 libgles-dev libgles1 libglvnd-core-dev libglx-dev libopengl-dev gcc make 
+```
 
-2. Add the repository and install the driver:
+3. Add the repository and install the driver:
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update 
@@ -45,15 +52,15 @@ sudo apt install nvidia-driver-555
 reboot
 ```
 
-NOTE: At the time this guide was last updated, 555 is the latest version of the driver available on the repository.
+NOTE: At the time this guide was last updated, 555 is the latest tested version of the driver available on the repository.
 
 Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-555` part with the version you would like to install.
 
-3. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
+4. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
 
 ### Installing through the official NVIDIA installer from the Nvidia.com website
 
-This procedure is more advanced and is often not recommended. And despite so, this is actually the method that I use to maintain an installation of the driver on my own system(s). It shall go alright as long as you follow each step with patience and care :)
+This procedure is more advanced and is often not recommended. However, it shall go alright as long as you follow each step with patience and care :)
 
 1. Ensure that you have uninstalled any previously installed NVIDIA drivers:
    * to uninstall any Nvidia drivers installed from an APT repository:
