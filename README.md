@@ -42,7 +42,7 @@ I am personally an **Ubuntu 24.04** user at the moment, so this is mostly what t
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update 
 sudo apt install nvidia-driver-555
-sudo reboot
+reboot
 ```
 
 NOTE: At the time this guide was last updated, 555 is the latest version of the driver available on the repository.
@@ -69,11 +69,16 @@ This procedure is more advanced and is often not recommended. And despite so, th
 sudo apt remove libnvidia-egl-wayland1
 ```
 
-3. Navigate to https://www.nvidia.com/Download/index.aspx?lang=en-us and download the proper driver for your GPU and Linux architecture. The website should give you a file that ends with the `.run` file extension.
+3. Install the required dependencies:
+```
+sudo apt install pkg-config libglvnd-dev
+```
 
-4. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
+4. Navigate to https://www.nvidia.com/Download/index.aspx?lang=en-us and download the proper driver for your GPU and Linux architecture. The website should give you a file that ends with the `.run` file extension.
 
-5. Stop the GDM service:
+5. Switch to the terminal view of your system by pressing `Ctrl + Alt + F3` (if this does not switch from the GUI mode to the terminal mode for you, try `Ctrl + Alt + F1` or `Ctrl + Alt + F2` instead for a different tty)
+
+6. Stop the GDM service:
 ```
 sudo systemctl stop gdm
 sudo systemctl stop gdm3
@@ -82,25 +87,25 @@ If this fails for you, try `sudo systemctl stop lightdm` instead.
 
 **Kindly note** that it is important to stop the GNOME Display Manager (GDM) service throughout the driver installation/uninstallation process as it may cause trouble otherwise.
 
-6. Change to the path of the directory that includes the downloaded `.run` file using `cd`
+7. Change to the path of the directory that includes the downloaded `.run` file using `cd`
 
-7. Run the installer:
+8. Run the installer:
 ```
 chmod +x NVIDIA-Linux-x86_64-555.42.02.run
 sudo sh ./NVIDIA-Linux-x86_64-555.42.02.run
 ```
 (make sure to replace the file name with the actual one that you got from the Nvidia website)
 
-8. The installer will guide you through everything. Please read everything with care and answer the prompts depending on the proper situation to avoid any problems.
+9. The installer will guide you through everything. Please read everything with care and answer the prompts depending on the proper situation to avoid any problems.
    
-NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then start again from step 4 once the system has completed rebooting.
+NOTE: If the installer asks you to disable Nouveau, allow the installer to disable it for you. You may need to abort the installer after this, then run `sudo update-initramfs -u && reboot`, then start again from step 5 once the system has completed rebooting.
 
-9. Once the installer has completed installing the driver, run `sudo update-initramfs -u` to update the initramfs.
-10. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
-11. Add `nvidia-drm.modeset=1` and `nvidia-drm.fbdev=1` inside your `GRUB_CMDLINE_LINUX` (i.e. `GRUB_CMDLINE_LINUX="nvidia-drm.modeset=1 nvidia-drm.fbdev=1"`)
-12. Run `sudo update-grub`
-13. Reboot the system
-14. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
+10. Once the installer has completed installing the driver, run `sudo update-initramfs -u` to update the initramfs.
+11. Edit `/etc/default/grub` using `sudo nano /etc/default/grub`
+12. Add `nvidia-drm.modeset=1` and `nvidia-drm.fbdev=1` inside your `GRUB_CMDLINE_LINUX` (i.e. `GRUB_CMDLINE_LINUX="nvidia-drm.modeset=1 nvidia-drm.fbdev=1"`)
+13. Run `sudo update-grub`
+14. Reboot the system
+15. Your newly installed driver should be up and running once the system boots up (you may run `nvidia-smi` to confirm so).
 
 -----
 
