@@ -66,6 +66,7 @@ This procedure is more advanced and is often not recommended. However, it shall 
    * to uninstall any Nvidia drivers installed from an APT repository:
       ```
       sudo apt-get remove --purge '^nvidia-.*'
+      sudo apt purge libnvidia-*
       sudo apt autoremove
       reboot
       ```
