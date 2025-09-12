@@ -47,13 +47,13 @@ sudo apt install pkg-config libglvnd-dev dkms build-essential libegl-dev libegl1
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update 
-sudo apt install nvidia-driver-580
+sudo apt install nvidia-driver-570
 reboot
 ```
 
-NOTE: At the time this guide was last updated, 580 is the latest tested version of the driver available on the repository.
+NOTE: At the time this guide was last updated, 570 is the latest tested version of the driver available on the repository.
 
-Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-580` part with the version you would like to install.
+Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-570` part with the version you would like to install.
 
 4. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
 
