@@ -1,7 +1,7 @@
 # NVIDIA Ubuntu Driver Guide
 A little guide to help you install & manage the NVIDIA GPU driver on your Ubuntu system(s)
 
-I am personally an **Ubuntu 24.04.1** user at the moment, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
+When I wrote this guide, I was personally using **Ubuntu 24.04.1**, so this is mostly what this guide applies to (though I believe it should work alright on newer releases, and also on older releases which are not old very old `[something like Ubuntu 20.04+]`)
 
 ## Index of content
 - [Driver installation](#driver-installation)
