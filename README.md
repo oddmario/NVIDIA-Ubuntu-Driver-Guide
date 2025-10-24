@@ -35,6 +35,7 @@ This installation approach is the recommended one, and it actually is the method
       ```
       sudo apt-get remove --purge '^nvidia-.*'
       sudo apt autoremove
+      sudo apt install ubuntu-drivers-common -y
       reboot
       ```
    * to uninstall any Nvidia drivers installed using the official NVIDIA installer (`.run` file): [Driver uninstallation](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
@@ -48,13 +49,13 @@ sudo apt install pkg-config libglvnd-dev dkms build-essential libegl-dev libegl1
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update 
-sudo apt install nvidia-driver-560
+sudo apt install nvidia-driver-570
 reboot
 ```
 
-NOTE: At the time this guide was last updated, 560 is the latest tested version of the driver available on the repository.
+NOTE: At the time this guide was last updated, 570 is the latest tested version of the driver available on the repository.
 
-Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-560` part with the version you would like to install.
+Navigate to https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa to check what the latest version of the driver is, then replace the `driver-570` part with the version you would like to install.
 
 4. Once the system has rebooted, run `nvidia-smi` to confirm that the driver has been installed with no issues.
 
@@ -68,6 +69,7 @@ This procedure is more advanced and is often not recommended. However, it shall 
       sudo apt-get remove --purge '^nvidia-.*'
       sudo apt purge libnvidia-*
       sudo apt autoremove
+      sudo apt install ubuntu-drivers-common -y
       reboot
       ```
    * to uninstall any Nvidia drivers installed using the official NVIDIA installer (`.run` file): [Driver uninstallation](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
@@ -125,6 +127,7 @@ Run:
 ```
 sudo apt-get remove --purge '^nvidia-.*'
 sudo apt autoremove
+sudo apt install ubuntu-drivers-common -y
 reboot
 ```
 
