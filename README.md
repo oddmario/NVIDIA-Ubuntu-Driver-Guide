@@ -39,7 +39,7 @@ This installation approach is the recommended one, and it actually is the method
       reboot
       ```
    * to uninstall any Nvidia drivers installed using the official NVIDIA installer (`.run` file): [Driver uninstallation](#uninstalling-the-driver-when-installed-through-the-official-nvidia-installer-from-the-nvidiacom-website)
-  
+   * after rebooting, you may need to enter text-only mode (Ctrl + Alt + F3) before continuing.
 2. Install these dependencies to ensure DKMS support and a problem-free installation process:
 ```
 sudo apt install pkg-config libglvnd-dev dkms build-essential libegl-dev libegl1 libgl-dev libgl1 libgles-dev libgles1 libglvnd-core-dev libglx-dev libopengl-dev gcc make 
